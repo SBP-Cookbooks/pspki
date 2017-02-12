@@ -1,0 +1,27 @@
+---
+driver:
+  name: proxy
+  host: localhost
+  reset_command: "exit 0"
+  username: <%= ENV["winrm_user"] %>
+  password: <%= ENV["winrm_pass"] %>
+  port: <%= ENV["winrm_port"] %>
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: <%= ENV['OMNIBUS_CHEF_CLIENT_VERSION'] || 'latest' %>
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: windows2012r2
+
+suites:
+  - name: default
+    run_list:
+      - recipe[pspki::default]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
