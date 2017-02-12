@@ -1,0 +1,39 @@
+version: "master-{build}"
+
+os: Windows Server 2012 R2
+platform: x64
+
+# Do not build on tags (GitHub only)
+skip_tags: true
+
+# Faster cloning
+clone_folder: c:\projects\chef-pspki
+clone_depth: 1
+
+build: off
+
+environment:
+  winrm_user: test_user
+  winrm_pass: Pass@word1
+  winrm_port: 5985
+  KITCHEN_YAML: c:\projects\chef-pspki\.kitchen.appveyor.yml
+  SSL_CERT_FILE: c:\opscode\chefdk\embedded\ssl\certs\cacert.pem
+
+  matrix:
+    - ruby_version: "23"
+
+install:
+  - ps: net user /add $env:winrm_user $env:winrm_pass
+  - ps: net localgroup administrators $env:winrm_user /add
+  - ps: . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -channel current -project chefdk
+  - ps: c:\opscode\chefdk\bin\chef.bat shell-init powershell | iex
+  - c:\opscode\chefdk\bin\chef.bat gem install berkshelf # See https://github.com/chef/chef-dk/issues/1155
+  - ps: chef --version
+  - ps: cookstyle --version
+  - ps: foodcritic --version
+
+test_script:
+  - c:\opscode\chefdk\bin\chef exec rake
+  - c:\opscode\chefdk\bin\kitchen verify || c:\opscode\chefdk\bin\kitchen verify
+
+deploy: off
