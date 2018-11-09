@@ -1,5 +1,9 @@
-# Changelog
+# pspki CHANGELOG
 
-## 1.0.0 (2017-02-12)
+All notable changes to this project will be documented in this file.
 
-First release.
+The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## 0.1.0 (2018-09-28)
+
+- First release.
