@@ -12,21 +12,61 @@ require 'spec_helper'
 describe 'pspki::default' do
   context 'When all attributes are default' do
     cached(:chef_run) do
-      ChefSpec::SoloRunner.new(file_cache_path: '/Chef/cache').converge(described_recipe)
+      ChefSpec::SoloRunner.new.converge(described_recipe)
     end
 
     it 'should converge successfully' do
       expect { chef_run }.to_not raise_error
     end
 
-    it 'should install the PSCX PowerShell module using default attribute values' do
-      expect(chef_run).to run_powershell_script('Fetch PSCX MSI')
-      expect(chef_run).to install_windows_package('PowerShell Community Extensions 3.2.0')
+    it 'should install "Pscx" Powershell package' do
+      expect(chef_run).to install_powershell_package('Pscx')
     end
 
-    it 'should install the PSPKI PowerShell module using default attribute values' do
-      expect(chef_run).to run_powershell_script('Fetch PSPKI EXE')
-      expect(chef_run).to install_windows_package('PowerShell PKI Module')
+    it 'should install "PSPKI" Powershell package' do
+      expect(chef_run).to install_powershell_package('PSPKI')
+    end
+  end
+
+  context 'When install attributes are set to false' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new do |node|
+        node.normal['pspki']['pscx_install'] = false
+        node.normal['pspki']['pspki_install'] = false
+      end.converge(described_recipe)
+    end
+
+    it 'should converge successfully' do
+      expect { chef_run }.to_not raise_error
+    end
+
+    it 'should remove "Pscx" Powershell package' do
+      expect(chef_run).to remove_powershell_package('Pscx')
+    end
+
+    it 'should remove "PSPKI" Powershell package' do
+      expect(chef_run).to remove_powershell_package('PSPKI')
+    end
+  end
+
+  context 'When version attributes are set' do
+    cached(:chef_run) do
+      ChefSpec::SoloRunner.new do |node|
+        node.normal['pspki']['pscx_version'] = 2
+        node.normal['pspki']['pspki_version'] = 2
+      end.converge(described_recipe)
+    end
+
+    it 'should converge successfully' do
+      expect { chef_run }.to_not raise_error
+    end
+
+    it 'should install "Pscx" version 2 Powershell package' do
+      expect(chef_run).to install_powershell_package('Pscx')
+    end
+
+    it 'should install "PSPKI" version 2 Powershell package' do
+      expect(chef_run).to install_powershell_package('PSPKI')
     end
   end
 end
