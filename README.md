@@ -4,79 +4,36 @@ Chef cookbook to install the [Public Key Infrastructure PowerShell module](http:
 
 ## Table of contents
 
-1. [Requirements](#requirements)
-    * [Platforms](#platforms)
-    * [Cookbooks](#cookbooks)
-2. [Usage](#usage)
-3. [Attributes](#attributes)
-4. [Recipes](#recipes)
-5. [Versioning](#versioning)
-6. [Testing](#testing)
-7. [License and Maintainers](#license-and-maintainers)
-8. [Contributing](#contributing)
-
-## Requirements
-
-### Platforms
-
-This cookbook supports:
-
-* Windows
-
-### Cookbooks
-
-This cookbook does not depend on any other cookbooks.
+1. [Usage](#usage)
+1. [Attributes](#attributes)
+1. [Recipes](#recipes)
+1. [Resources](#resources)
+1. [Versioning](#versioning)
+1. [Contributing](#contributing)
+1. [License and Author](#license-and-author)
 
 ## Usage
-
-Using this cookbook is simple, add the recipe to your run-list and it will install the PKI PowerShell module.
-
-You can specify a custom source URL via the `['pspki']['source_url']` attribute.
 
 ## Attributes
 
 Attributes in this cookbook:
 
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['pspki']['pscx_package_name']</tt></td>
-    <td>String</td>
-    <td>Specifies the PowerShell Community Extensions package name, this should be safe to leave as default.</td>
-    <td><tt>PowerShell PKI Module</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['pspki']['pscx_source_url']</tt></td>
-    <td>String</td>
-    <td>Specifies where to download the PowerShell Community Extensions installer from incase you wish to host it internally.</td>
-    <td><tt>http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=pspki&DownloadId=1563372&FileTime=131053734314730000&Build=21031</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['pspki']['pspki_package_name']</tt></td>
-    <td>String</td>
-    <td>Specifies the PowerShell PKI package name, this should be safe to leave as default.</td>
-    <td><tt>PowerShell PKI Module</tt></td>
-  </tr>
-  <tr>
-    <td><tt>['pspki']['pspki_source_url']</tt></td>
-    <td>String</td>
-    <td>Specifies where to download the PowerShell PKI installer from incase you wish to host it internally.</td>
-    <td><tt>http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=pspki&DownloadId=1563372&FileTime=131053734314730000&Build=21031</tt></td>
-  </tr>
-</table>
+Name                         | Types   | Description                                                       | Default
+---------------------------- | ------  | ----------------------------------------------------------------- | -------
+`['pspki']['pscx_install']`  | Boolean | Specifies if to install PSCX module, set to `false` to uninstall  | `true`
+`['pspki']['pscx_version']`  | String  | Specifies version to install, installs latest if not set          | `nil`
+`['pspki']['pspki_install']` | Boolean | Specifies if to install PSPKI module, set to `false` to uninstall | `true`
+`['pspki']['pspki_version']` | String  | Specifies version to install, installs latest if not set          | `nil`
 
 ## Recipes
 
-### Public Recipes
+### `pspki::default`
 
-#### `pspki::default`
+Installs the PKI PowerShell module and it's dependencies.
 
-Installs the PKI PowerShell module.
+## Resources
+
+This cookbook doesn't ship any resources.
 
 ## Versioning
 
@@ -84,37 +41,39 @@ This cookbook uses [Semantic Versioning 2.0.0](http://semver.org/).
 
 Given a version number MAJOR.MINOR.PATCH, increment the:
 
-* MAJOR version when you make functional cookbook changes,
-* MINOR version when you add functionality in a backwards-compatible manner,
-* PATCH version when you make backwards-compatible bug fixes.
-
-## Testing
-
-```
-rake integration:kitchen:all                    # Run all test instances
-rake integration:kitchen:default-windows2012r2  # Run default-windows2012r2 test instance
-rake spec                                       # Run ChefSpec examples
-rake style                                      # Run all style checks
-rake style:chef                                 # Run Chef style checks
-rake style:ruby                                 # Run Ruby style checks
-rake style:ruby:auto_correct                    # Auto-correct RuboCop offenses
-```
-
-## License and Maintainers
-
-Maintainers:
-
-* Stephen Hoekstra <shoekstra@schubergphilis.com>
-
-Copyright (c) 2017, Schuberg Philis, All Rights Reserved.
+- MAJOR version when you make functional cookbook changes,
+- MINOR version when you add functionality in a backwards-compatible manner,
+- PATCH version when you make backwards-compatible bug fixes.
 
 ## Contributing
 
 We welcome contributed improvements and bug fixes via the usual work flow:
 
 1. Fork this repository
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new pull request
+1. Create your feature branch (`git checkout -b my-new-feature`)
+1. Commit your changes (`git commit -am 'Add some feature'`)
+1. Push to the branch (`git push origin my-new-feature`)
+1. Create a new pull request
 
+## License and Author
+
+Authors and contributors:
+
+- Author: Stephen Hoekstra (stephenhoekstra@gmail.com)
+
+```text
+Copyright 2018, Stephen Hoekstra <stephenhoekstra@gmail.com>
+Copyright 2018, Schuberg Philis
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
