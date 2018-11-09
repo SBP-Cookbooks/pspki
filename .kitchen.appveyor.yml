@@ -9,13 +9,16 @@ driver:
 
 provisioner:
   name: chef_zero
-  require_chef_omnibus: <%= ENV['OMNIBUS_CHEF_CLIENT_VERSION'] || 'latest' %>
+  product_name: chef
+  product_version: <%= ENV['CHEF_VERSION'] || 'latest' %>
+  install_strategy: <%= ENV['CHEF_INSTALL'] || 'once' %>
+  log_level: <%= ENV['CHEF_LOG_LEVEL'] || "auto" %>
 
 verifier:
   name: inspec
 
 platforms:
-  - name: windows2012r2
+  - name: windows
 
 suites:
   - name: default
